@@ -1,8 +1,10 @@
 package com.roze.service.impl;
 
 import com.roze.constants.CafeConstants;
+import com.roze.dto.UserDto;
 import com.roze.entity.User;
 import com.roze.jwt.CustomerUserDetailsService;
+import com.roze.jwt.JwtFilter;
 import com.roze.jwt.JwtUtils;
 import com.roze.repository.UserRepository;
 import com.roze.service.UserService;
@@ -17,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -33,6 +37,8 @@ public class UserServiceImpl implements UserService {
     private CustomerUserDetailsService customerUserDetailsService;
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private JwtFilter jwtFilter;
 
     @Override
     public ResponseEntity<String> signup(Map<String, String> requestMap) {
@@ -68,16 +74,30 @@ public class UserServiceImpl implements UserService {
                             jwtUtils.generateToken(customerUserDetailsService.getUserDetail().getEmail(),
                                     customerUserDetailsService.getUserDetail().getRole()) + "\"}",
                             HttpStatus.OK);
-                }else{
-                    return new ResponseEntity<String>("{\"message\":\""+"Wait for admin approval."+"\"}",
+                } else {
+                    return new ResponseEntity<String>("{\"message\":\"" + "Wait for admin approval." + "\"}",
                             HttpStatus.BAD_REQUEST);
                 }
             }
         } catch (Exception ex) {
             log.error("{}", ex);
         }
-        return new ResponseEntity<String>("{\"message\":\""+"Bad Credentials."+"\"}",
+        return new ResponseEntity<String>("{\"message\":\"" + "Bad Credentials." + "\"}",
                 HttpStatus.BAD_REQUEST);
+    }
+
+    @Override
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        try {
+            if (jwtFilter.isAdmin()) {
+                return new ResponseEntity<>(userRepository.getAllUsers(), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(new ArrayList<>(), HttpStatus.UNAUTHORIZED);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private boolean validateSignupMap(Map<String, String> requestMap) {
