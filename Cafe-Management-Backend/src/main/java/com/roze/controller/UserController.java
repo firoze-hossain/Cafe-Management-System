@@ -49,4 +49,14 @@ public class UserController {
         return new ResponseEntity<List<UserDto>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @PostMapping("/update")
+    public ResponseEntity<String> update(@RequestBody Map<String, String> requestMap) {
+        try {
+            return userService.update(requestMap);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
