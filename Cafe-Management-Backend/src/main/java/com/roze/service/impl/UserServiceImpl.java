@@ -122,6 +122,33 @@ public class UserServiceImpl implements UserService {
         return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<String> checkToken() {
+        return CafeUtils.getResponseEntity("true", HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
+        try {
+            User user = userRepository.findByEmail(jwtFilter.getCurrentUser());
+            //if (!user.equals(null)) {
+            if (user != null) {
+                //if (user.getPassword().equals(requestMap.get("password"))) {
+                if (passwordEncoder.matches(requestMap.get("password"), user.getPassword())) {
+                    //user.setPassword(requestMap.get("newPassword"));
+                    user.setPassword(passwordEncoder.encode(requestMap.get("newPassword")));
+                    userRepository.save(user);
+                    return CafeUtils.getResponseEntity("Password Updated Successfully", HttpStatus.OK);
+                }
+                return CafeUtils.getResponseEntity("Incorrect Old Password", HttpStatus.BAD_REQUEST);
+            }
+            return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     private void sendMailToAllAdmin(String status, String user, List<String> allAdmin) {
         allAdmin.remove(jwtFilter.getCurrentUser());
         if (status != null && status.equalsIgnoreCase("true")) {
