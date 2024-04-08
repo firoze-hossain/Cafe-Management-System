@@ -1,19 +1,24 @@
 package com.roze.service.impl;
 
+import com.google.common.base.Strings;
 import com.roze.constants.CafeConstants;
 import com.roze.entity.Category;
 import com.roze.jwt.JwtFilter;
 import com.roze.repository.CategoryRepository;
 import com.roze.service.CategoryService;
 import com.roze.utils.CafeUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
@@ -35,6 +40,20 @@ public class CategoryServiceImpl implements CategoryService {
             ex.printStackTrace();
         }
         return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<List<Category>> getAllCategory(String filterValue) {
+        try {
+            if (!Strings.isNullOrEmpty(filterValue) && filterValue.equalsIgnoreCase("true")) {
+                log.info("Inside if block");
+                return new ResponseEntity<List<Category>>(categoryRepository.findAll(), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(categoryRepository.findAll(), HttpStatus.OK);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<List<Category>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private boolean validateCategoryMap(Map<String, String> requestMap, boolean validate) {
