@@ -1,6 +1,7 @@
 package com.roze.service.impl;
 
 import com.roze.constants.CafeConstants;
+import com.roze.dto.ProductDto;
 import com.roze.entity.Category;
 import com.roze.entity.Product;
 import com.roze.jwt.JwtFilter;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -37,6 +40,16 @@ public class ProductServiceImpl implements ProductService {
             ex.printStackTrace();
         }
         return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+        try {
+            return new ResponseEntity<>(productRepository.getAllProducts(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private boolean validateProductMap(Map<String, String> requestMap, boolean validateId) {
