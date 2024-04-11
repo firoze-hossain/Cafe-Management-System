@@ -30,7 +30,7 @@ public class ProductController {
     }
 
     @GetMapping("/get")
-    ResponseEntity<List<ProductDto>> getAllProduct() {
+    public ResponseEntity<List<ProductDto>> getAllProduct() {
         try {
             return productService.getAllProducts();
         } catch (Exception e) {
@@ -38,4 +38,16 @@ public class ProductController {
         }
         return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<String> updateProduct(@RequestBody Map<String, String> requestMap) {
+        try {
+            return productService.updateProduct(requestMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
 }
