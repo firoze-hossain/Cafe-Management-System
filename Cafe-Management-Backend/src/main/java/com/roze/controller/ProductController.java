@@ -50,4 +50,14 @@ public class ProductController {
 
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Integer id) {
+        try {
+            return productService.deleteProduct(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
