@@ -36,7 +36,7 @@ public class ProductController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PutMapping("/update")
@@ -68,6 +68,16 @@ public class ProductController {
             e.printStackTrace();
         }
         return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @GetMapping("/getByCategory/{id}")
+    public ResponseEntity<List<ProductDto>> getByCategory(@PathVariable Integer id) {
+        try {
+            return productService.getByCategory(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

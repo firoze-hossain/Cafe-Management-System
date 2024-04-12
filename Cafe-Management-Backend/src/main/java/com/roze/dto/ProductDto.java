@@ -16,4 +16,10 @@ public class ProductDto {
 
     private Integer categoryId;
     private String categoryName;
+
+    public ProductDto(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
 }

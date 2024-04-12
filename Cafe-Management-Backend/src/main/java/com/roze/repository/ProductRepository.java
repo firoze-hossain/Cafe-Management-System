@@ -20,4 +20,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Transactional
     @Query("update Product p set p.status=:status where p.id=:id")
     Integer updateProductStatus(@Param("status") String status, @Param("id") Integer id);
+
+    @Query("select new com.roze.dto.ProductDto(p.id,p.name) from Product p where p.category.id=:id and p.status='true'")
+    List<ProductDto> findAllByCategory(Integer id);
 }
