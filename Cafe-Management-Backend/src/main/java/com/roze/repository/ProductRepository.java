@@ -23,4 +23,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("select new com.roze.dto.ProductDto(p.id,p.name) from Product p where p.category.id=:id and p.status='true'")
     List<ProductDto> findAllByCategory(Integer id);
+
+    @Query("select new com.roze.dto.ProductDto(p.id,p.name,p.description,p.price) from Product p where p.id=:id")
+    ProductDto getProductById(@Param("id") Integer id);
 }

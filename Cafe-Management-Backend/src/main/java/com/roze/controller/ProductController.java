@@ -80,4 +80,13 @@ public class ProductController {
         return new ResponseEntity(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @GetMapping("/getById/{id}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable("id") Integer id) {
+        try {
+            return productService.getProductById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

@@ -130,6 +130,16 @@ public class ProductServiceImpl implements ProductService {
         return new ResponseEntity(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @Override
+    public ResponseEntity<ProductDto> getProductById(Integer id) {
+        try {
+            return new ResponseEntity(productRepository.getProductById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     private boolean validateProductMap(Map<String, String> requestMap, boolean validateId) {
         if (requestMap.containsKey("name")) {
             if (requestMap.containsKey("id") && validateId) {
