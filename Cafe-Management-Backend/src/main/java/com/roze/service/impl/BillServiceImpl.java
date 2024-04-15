@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -77,6 +79,22 @@ public class BillServiceImpl implements BillService {
             e.printStackTrace();
         }
         return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    public ResponseEntity<List<Bill>> getBills() {
+        List<Bill> list = new ArrayList<>();
+        try {
+            if (jwtFilter.isAdmin()) {
+                list = billRepository.getAllBills();
+            }else{
+                list=billRepository.getBillByUsername(jwtFilter.getCurrentUser());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
     private void addRows(PdfPTable pdfPTable, Map<String, Object> data) {
