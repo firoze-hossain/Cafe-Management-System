@@ -48,4 +48,14 @@ public class BillController {
         }
         return null;
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteBill(@PathVariable("id") Integer id) {
+        try {
+            return billService.deleteBill(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return CafeUtils.getResponseEntity(CafeConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
