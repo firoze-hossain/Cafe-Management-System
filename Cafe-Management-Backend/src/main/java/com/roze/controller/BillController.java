@@ -38,4 +38,14 @@ public class BillController {
         }
         return null;
     }
+
+    @PostMapping("/getPdf")
+    public ResponseEntity<byte[]> getPdf(@RequestBody Map<String, Object> requestMap) {
+        try {
+            return billService.getPdf(requestMap);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 }
