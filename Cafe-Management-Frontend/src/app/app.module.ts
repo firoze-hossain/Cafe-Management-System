@@ -15,14 +15,14 @@ import { AppHeaderComponent } from './layouts/full/header/header.component';
 import { AppSidebarComponent } from './layouts/full/sidebar/sidebar.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     HomeComponent,
     BestSellerComponent,
     FullComponent,
     AppHeaderComponent,
     AppSidebarComponent
-   ],
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
