@@ -1,7 +1,4 @@
-import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {SignupComponent} from "../signup/signup.component";
-
+import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,15 +6,9 @@ import {SignupComponent} from "../signup/signup.component";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private dialog: MatDialog) {
-  }
+  constructor() { }
 
   ngOnInit(): void {
   }
 
-  handleSignupAction() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.width = "550px";
-    this.dialog.open(SignupComponent, dialogConfig);
-  }
 }
