@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
             //if (!user.equals(null)) {
             if (user != null) {
                 //if (user.getPassword().equals(requestMap.get("password"))) {
-                if (passwordEncoder.matches(requestMap.get("password"), user.getPassword())) {
+                if (passwordEncoder.matches(requestMap.get("oldPassword"), user.getPassword())) {
                     //user.setPassword(requestMap.get("newPassword"));
                     user.setPassword(passwordEncoder.encode(requestMap.get("newPassword")));
                     userRepository.save(user);

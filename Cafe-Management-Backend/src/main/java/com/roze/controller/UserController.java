@@ -70,7 +70,7 @@ public class UserController {
     }
 
     @PostMapping("/changePassword")
-    ResponseEntity<String> changePassword(@RequestBody Map<String, String> requestMap) {
+   public ResponseEntity<String> changePassword(@RequestBody Map<String, String> requestMap) {
         try {
             return userService.changePassword(requestMap);
         } catch (Exception ex) {
