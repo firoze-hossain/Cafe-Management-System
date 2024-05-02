@@ -9,7 +9,10 @@ export interface Menu {
   role: string;
 }
 
-const MENUITEMS = [{state: 'dashboard', name: 'Dashboard', icon: 'dashboard', type: 'link', role: ''}];
+const MENUITEMS = [
+  {state: 'dashboard', name: 'Dashboard', icon: 'dashboard', type: 'link', role: ''},
+  {state: 'category', name: 'Manage Category', icon: 'category', type: 'link', role: 'admin'}
+];
 
 @Injectable()
 export class MenuItems {
