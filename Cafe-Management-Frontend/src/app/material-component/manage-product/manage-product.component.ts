@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductService} from "../../services/product.service";
 import {NgxUiLoaderService} from "ngx-ui-loader";
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {SnackbarService} from "../../services/snackbar.service";
 import {Router} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
 import {GlobalConstants} from "../../shared/global-constants";
+import {CategoryComponent} from "../dialog/category/category.component";
+import {ProductComponent} from "../dialog/product/product.component";
 
 @Component({
   selector: 'app-manage-product',
@@ -52,18 +54,29 @@ export class ManageProductComponent implements OnInit {
   }
 
   handleAddAction() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = {
+      action: 'Add'
+    };
+    dialogConfig.width = "850px";
+    const dialogRef = this.dialog.open(ProductComponent, dialogConfig);
+    this.router.events.subscribe(() => {
+      dialogRef.close();
+    });
+    const sub = dialogRef.componentInstance.onAddProduct.subscribe((res) => {
+      this.tableData();
+    })
+  }
+
+  handleEditAction(values: any) {
 
   }
 
-  handleEditAction(values:any) {
+  handleDeleteAction(values: any) {
 
   }
 
-  handleDeleteAction(values:any) {
-
-  }
-
-  onChange(status:any, id:any) {
+  onChange(status: any, id: any) {
 
   }
 }
