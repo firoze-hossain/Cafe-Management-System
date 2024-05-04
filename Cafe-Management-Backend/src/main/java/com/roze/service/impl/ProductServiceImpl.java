@@ -106,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
                 Optional optionalProduct = productRepository.findById(Integer.parseInt(requestMap.get("id")));
                 if (!optionalProduct.isEmpty()) {
                     productRepository.updateProductStatus(requestMap.get("status"), Integer.parseInt(requestMap.get("id")));
-                    return CafeUtils.getResponseEntity("Product updated successfully", HttpStatus.OK);
+                    return CafeUtils.getResponseEntity("Product status updated successfully", HttpStatus.OK);
                 } else {
                     return CafeUtils.getResponseEntity("Product is not found!!", HttpStatus.NOT_FOUND);
                 }
