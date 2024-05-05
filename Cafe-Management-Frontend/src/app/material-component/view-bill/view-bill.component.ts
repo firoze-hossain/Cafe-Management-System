@@ -63,4 +63,10 @@ export class ViewBillComponent implements OnInit {
       dialogRef.close();
     })
   }
+  downloadReportAction(values:any){
+
+  }
+  handleDeleteAction(values:any){
+
+  }
 }
