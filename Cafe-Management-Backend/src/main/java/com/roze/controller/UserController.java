@@ -49,7 +49,7 @@ public class UserController {
         return new ResponseEntity<List<UserDto>>(new ArrayList<>(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     public ResponseEntity<String> update(@RequestBody Map<String, String> requestMap) {
         try {
             return userService.update(requestMap);
